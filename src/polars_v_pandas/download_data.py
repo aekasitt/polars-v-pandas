@@ -12,12 +12,16 @@
 
 ### Third-party packages ###
 from pandas import DataFrame, concat
-import yfinance as download
+from yfinance import download
 
 
-if __name__ == "__main__":
+def main() -> None:
   tickers: tuple[str, ...] = ("tsla", "msft")
   data: list[DataFrame] = [
     DataFrame(download(ticker, start="2024-01-01", end="2024-02-26")) for ticker in tickers
   ]
   concat(data).to_csv("data.csv")
+
+
+if __name__ == "__main__":
+  main()
