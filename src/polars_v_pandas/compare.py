@@ -25,6 +25,7 @@ N = 10  # How many times to execute statement
 # SETUP_PANDAS = '''import pandas as pd'''
 # SETUP_POLARS = '''import polars as pl'''
 
+
 def main() -> None:
   # --- Test 1 --- (Read a single CSV file)
   # test_name = 'Read a single CSV file'
