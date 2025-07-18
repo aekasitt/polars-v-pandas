@@ -24,11 +24,13 @@ def main() -> None:
   # --- Test 1 --- (Read a single CSV file)
   SETUP_PANDAS: str = """import pandas as pd"""
   SETUP_POLARS: str = """import polars as pl"""
-  test_name = "Read a single CSV file"
+
+  index: int = 1
   statement_pandas = """pd.read_csv("./data.csv", engine='pyarrow')"""
   statement_polars = """pl.read_csv("./data.csv")"""
-
+  test_name = "Read a single CSV file"
   evaluate_and_show(
+    index=index,
     setup_pd=SETUP_PANDAS,
     setup_pdc=SETUP_PANDAS,
     setup_pda=SETUP_PANDAS,
@@ -41,7 +43,6 @@ def main() -> None:
   )
 
   # --- Test 2 --- (Selecting v1)
-  test_name = "Selecting columns (v1)"
   SETUP_PANDAS = dedent("""
   import pandas as pd
   df_pandas = pd.read_csv('./data.csv')
@@ -59,9 +60,12 @@ def main() -> None:
   df_polars = pl.read_csv('./data.csv')
   """)
 
+  index = 2
   statement_pandas = """df_pandas[['Open', 'High']]"""
   statement_polars = """df_polars[['Open', 'High']]"""
+  test_name = "Selecting columns (v1)"
   evaluate_and_show(
+    index=index,
     setup_pd=SETUP_PANDAS,
     setup_pl=SETUP_POLARS,
     setup_pdc=SETUP_PANDAS_C,
@@ -74,10 +78,12 @@ def main() -> None:
   )
 
   # --- Test 3 --- (Selecting v2)
-  test_name = "Selecting columns (v2)"
+  index = 3
   statement_pandas = """df_pandas[['Date', 'Volume']]"""
   statement_polars = """df_polars.select(['Date', 'Volume'])"""
+  test_name = "Selecting columns (v2)"
   evaluate_and_show(
+    index=index,
     setup_pd=SETUP_PANDAS,
     setup_pl=SETUP_POLARS,
     setup_pdc=SETUP_PANDAS_C,
@@ -90,10 +96,12 @@ def main() -> None:
   )
 
   # --- Test 4 --- (Filtering)
-  test_name = "Filtering"
+  index = 4
   statement_pandas = """df_pandas.query('Low > 5')"""
   statement_polars = """df_polars.filter(pl.col('Low') > 5)"""
+  test_name = "Filtering"
   evaluate_and_show(
+    index=index,
     setup_pd=SETUP_PANDAS,
     setup_pl=SETUP_POLARS,
     setup_pdc=SETUP_PANDAS_C,
@@ -106,10 +114,12 @@ def main() -> None:
   )
 
   # --- Test 5 --- (Create a new Column v1)
+  index = 5
   test_name = "Create a new column (v1)"
   statement_pandas = """df_pandas['new_col'] = df_pandas['Low'] * 10"""
   statement_polars = """df_polars.with_columns((pl.col('Low') * 10).alias('new_col'))"""
   evaluate_and_show(
+    index=index,
     setup_pd=SETUP_PANDAS,
     setup_pl=SETUP_POLARS,
     setup_pdc=SETUP_PANDAS_C,
@@ -122,10 +132,12 @@ def main() -> None:
   )
 
   # --- Test 6 --- (Creating new Columns v2)
-  test_name = "Create a new column (v2)"
+  index = 6
   statement_pandas = """df_pandas['new_col'] = df_pandas['Low'] * 10"""
   statement_polars = """df_polars.lazy().with_columns((pl.col('Low') * 10).alias('new_col'))"""
+  test_name = "Create a new column (v2)"
   evaluate_and_show(
+    index=index,
     setup_pd=SETUP_PANDAS,
     setup_pl=SETUP_POLARS,
     setup_pdc=SETUP_PANDAS_C,
@@ -138,10 +150,12 @@ def main() -> None:
   )
 
   # --- Test 7 --- (Group and aggregate)
-  test_name = "Group and aggregate"
+  index = 7
   statement_pandas = """df_pandas.groupby('Low')['Close'].agg('mean')"""
   statement_polars = """df_polars.group_by('Low').agg([pl.mean('Close')])"""  # shorter
+  test_name = "Group and aggregate"
   evaluate_and_show(
+    index=index,
     setup_pd=SETUP_PANDAS,
     setup_pl=SETUP_POLARS,
     setup_pdc=SETUP_PANDAS_C,
@@ -154,10 +168,12 @@ def main() -> None:
   )
 
   # --- Test 8 --- (Missing data)
-  test_name = "Fill missing data"
+  index = 8
   statement_pandas = """df_pandas['Close'].fillna(-999)"""
   statement_polars = """df_polars.with_columns(pl.col('Close').fill_null(-999))"""
+  test_name = "Fill missing data"
   evaluate_and_show(
+    index=index,
     setup_pd=SETUP_PANDAS,
     setup_pl=SETUP_POLARS,
     setup_pdc=SETUP_PANDAS_C,

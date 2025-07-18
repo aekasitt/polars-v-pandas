@@ -26,6 +26,7 @@ from matplotlib import pyplot as plt
 
 
 def evaluate_and_show(
+  index: int,
   setup_pd: str,
   setup_pdc: str,
   setup_pda: str,
@@ -39,32 +40,30 @@ def evaluate_and_show(
   """
   Orchestrate statement evaluation and show results in terminal and in barchart.
   """
-  t_pandas = test_it(setup=setup_pd, statement=stmt_pd, R=R, N=N)
-  t_pandas_c = test_it(setup=setup_pdc, statement=stmt_pd, R=R, N=N)
-  t_pandas_arrow = test_it(setup=setup_pda, statement=stmt_pd, R=R, N=N)
-  t_polars = test_it(setup=setup_pl, statement=stmt_pl, R=R, N=N)
-  show_results(
+  t_pandas = _test_it(setup=setup_pd, statement=stmt_pd, R=R, N=N)
+  t_pandas_c = _test_it(setup=setup_pdc, statement=stmt_pd, R=R, N=N)
+  t_pandas_arrow = _test_it(setup=setup_pda, statement=stmt_pd, R=R, N=N)
+  t_polars = _test_it(setup=setup_pl, statement=stmt_pl, R=R, N=N)
+  _show_results(
     dur_pd=t_pandas,
     dur_pdc=t_pandas_c,
     dur_pda=t_pandas_arrow,
     dur_pl=t_polars,
     test_name=test_name,
   )
-  show_graph(
+  _show_graph(
+    index=index,
     dur_pd=t_pandas,
     dur_pdc=t_pandas_c,
     dur_pda=t_pandas_arrow,
     dur_pl=t_polars,
-    text_name=test_name,
+    test_name=test_name,
   )
 
   return None
 
 
-# Supporting functions
-
-
-def show_results(dur_pd: list, dur_pdc: list, dur_pda: list, dur_pl: list, test_name: str) -> None:
+def _show_results(dur_pd: list, dur_pdc: list, dur_pda: list, dur_pl: list, test_name: str) -> None:
   """
   Show results directly in terminal windows (average durations and standard
   deviation)
@@ -94,7 +93,7 @@ def show_results(dur_pd: list, dur_pdc: list, dur_pda: list, dur_pl: list, test_
   return None
 
 
-def show_graph(dur_pd: list, dur_pdc: list, dur_pda: list, dur_pl: list, text_name: str) -> None:
+def _show_graph(dur_pd: list, dur_pdc: list, dur_pda: list, dur_pl: list, index: int, test_name: str) -> None:
   """
   Showing a histogram representing duration of a given function to perform for
   both Pandas and Polar modules.
@@ -146,17 +145,18 @@ def show_graph(dur_pd: list, dur_pdc: list, dur_pda: list, dur_pl: list, text_na
     color=["#4454c7"],
     label=f"{names[3]} = {np.round(np.mean(dur_pl), 2)} s",
   )
-  _ = plt.title(text_name, fontsize=12)
+  _ = plt.title(test_name, fontsize=12)
   _ = plt.grid(which="major", color="black", linestyle="--", alpha=0.5)
   _ = plt.xlabel("Python module", fontsize=11)
   _ = plt.ylabel("Duration [s]", fontsize=11)
   _ = plt.legend(shadow=True)
   plt.show()
+  plt.savefig(f"images/test_{index:02d}.png")
 
   return None
 
 
-def test_it(setup: str, statement: str, R: int, N: int) -> list:
+def _test_it(setup: str, statement: str, R: int, N: int) -> list:
   """
   Test specific function and return durations in generated list.
   """
@@ -165,4 +165,4 @@ def test_it(setup: str, statement: str, R: int, N: int) -> list:
   return t
 
 
-__all__: tuple[str, ...] = ("evaluate_and_show", "show_graph", "show_results", "test_it")
+__all__: tuple[str, ...] = ("evaluate_and_show",)
