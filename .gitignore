@@ -3,6 +3,10 @@
 **/*.so
 
 
+# downloaded data from yfinance
+data.csv
+
+
 # python virtual environment
 .venv
 
