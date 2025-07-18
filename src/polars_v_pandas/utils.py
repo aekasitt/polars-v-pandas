@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.1u
+#!/usr/bin/env python3.13
 # coding:utf-8
 # Copyright (C) 2024-2025 All rights reserved.
 # FILENAME:    ~~/src/polars_v_pandas/utils.py
@@ -59,6 +59,8 @@ def evaluate_and_show(
   )
 
   return None
+
+
 # Supporting functions
 
 
@@ -67,8 +69,10 @@ def show_results(dur_pd: list, dur_pdc: list, dur_pda: list, dur_pl: list, test_
   Show results directly in terminal windows (average durations and standard
   deviation)
   """
+
   def round_three(n: float) -> int:
-      return np.round(n, 3)
+    return np.round(n, 3)
+
   averages: list = list(map(np.mean, [dur_pd, dur_pdc, dur_pda, dur_pl]))
   rounded_averages: list = list(map(round_three, averages))
   stdevs: list = list(map(round_three, map(np.std, [dur_pd, dur_pdc, dur_pda, dur_pl])))
