@@ -17,12 +17,17 @@ dependencies = [
   'pandas >=2.3.1',
   'polars >=1.31.0',
   'pyarrow >=21.0.0',
+  'yfinance >=0.2.65',
 ]
 description = 'Quick comparison difference between Polars and Pandas, with and without PyArrow backend'
 name = 'polars-v-pandas'
 readme = 'README.md'
 requires-python = '>=3.13.5'
 version = '0.0.1'
+
+
+[project.scripts]
+download = 'polars_v_pandas.download_data:main'
 
 
 [tool.ruff]
