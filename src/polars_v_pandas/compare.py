@@ -115,9 +115,9 @@ def main() -> None:
 
   # --- Test 5 --- (Create a new Column v1)
   index = 5
-  test_name = "Create a new column (v1)"
   statement_pandas = """df_pandas['new_col'] = df_pandas['Low'] * 10"""
   statement_polars = """df_polars.with_columns((pl.col('Low') * 10).alias('new_col'))"""
+  test_name = "Create a new column (v1)"
   evaluate_and_show(
     index=index,
     setup_pd=SETUP_PANDAS,
