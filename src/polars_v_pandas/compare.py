@@ -10,52 +10,54 @@
 # HISTORY:
 # *************************************************************
 
+### Standard packages ###
+from textwrap import dedent
+
 ### Local modules ###
-from polars_v_pandas.utils import (
-  # test_it,                 # execute a given function
-  # show_results,  # show results in terminal
-  # show_graph,  # show results in chart
-  evaluate_and_show,  # orchestrate whole output mechanism
-)
+from polars_v_pandas.utils import evaluate_and_show
 
-# Experiment parameters
-R = 5  # Calls the timeit() repeatedly, returning a list of results
-N = 10  # How many times to execute statement
-
-# SETUP_PANDAS = '''import pandas as pd'''
-# SETUP_POLARS = '''import polars as pl'''
+R: int = 5  # Calls the timeit() repeatedly, returning a list of results
+N: int = 10  # How many times to execute statement
 
 
 def main() -> None:
   # --- Test 1 --- (Read a single CSV file)
-  # test_name = 'Read a single CSV file'
-  # statement_pandas = '''pd.read_csv("./data.csv", engine='pyarrow')'''
-  # statement_polars = '''pl.read_csv("./data.csv")'''
+  SETUP_PANDAS: str = """import pandas as pd"""
+  SETUP_POLARS: str = """import polars as pl"""
+  test_name = "Read a single CSV file"
+  statement_pandas = """pd.read_csv("./data.csv", engine='pyarrow')"""
+  statement_polars = """pl.read_csv("./data.csv")"""
 
-  # t_pandas = test_it(setup=SETUP_PANDAS, statement=statement_pandas, R=R, N=N)
-  # t_polars = test_it(setup=SETUP_POLARS, statement=statement_polars, R=R, N=N)
-  # evaluate_and_show(setup_pd=SETUP_PANDAS, setup_pl=SETUP_POLARS,
-  #                   stmt_pd=statement_pandas, stmt_pl=statement_polars,
-  #                   R=R, N=N, test_name=test_name)
+  evaluate_and_show(
+    setup_pd=SETUP_PANDAS,
+    setup_pdc=SETUP_PANDAS,
+    setup_pda=SETUP_PANDAS,
+    setup_pl=SETUP_POLARS,
+    stmt_pd=statement_pandas,
+    stmt_pl=statement_polars,
+    R=R,
+    N=N,
+    test_name=test_name,
+  )
 
   # --- Test 2 --- (Selecting v1)
   test_name = "Selecting columns (v1)"
-  SETUP_PANDAS = """
+  SETUP_PANDAS = dedent("""
   import pandas as pd
   df_pandas = pd.read_csv('./data.csv')
-  """
-  SETUP_PANDAS_C = """
+  """)
+  SETUP_PANDAS_C = dedent("""
   import pandas as pd
   df_pandas = pd.read_csv('./data.csv', engine='c')
-  """
-  SETUP_PANDAS_PYARROW = """
+  """)
+  SETUP_PANDAS_PYARROW = dedent("""
   import pandas as pd
   df_pandas = pd.read_csv('./data.csv', engine='pyarrow')
-  """
-  SETUP_POLARS = """
+  """)
+  SETUP_POLARS = dedent("""
   import polars as pl
   df_polars = pl.read_csv('./data.csv')
-  """
+  """)
 
   statement_pandas = """df_pandas[['Open', 'High']]"""
   statement_polars = """df_polars[['Open', 'High']]"""
@@ -138,7 +140,7 @@ def main() -> None:
   # --- Test 7 --- (Group and aggregate)
   test_name = "Group and aggregate"
   statement_pandas = """df_pandas.groupby('Low')['Close'].agg('mean')"""
-  statement_polars = """df_polars.groupby('Low').agg([pl.mean('Close')])"""  # shorter
+  statement_polars = """df_polars.group_by('Low').agg([pl.mean('Close')])"""  # shorter
   evaluate_and_show(
     setup_pd=SETUP_PANDAS,
     setup_pl=SETUP_POLARS,
