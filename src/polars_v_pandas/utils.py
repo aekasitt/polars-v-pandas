@@ -1,3 +1,14 @@
+#!/usr/bin/env python3.13
+# coding:utf-8
+# Copyright (C) 2024-2025 All rights reserved.
+# FILENAME:    ~~/src/polars_v_pandas/compare.py
+# VERSION:     0.0.1
+# CREATED:     2025-07-18 21:27
+# AUTHOR:      Sitt Guruvanich <aekazitt+github@gmail.com>
+# DESCRIPTION:
+#
+# HISTORY:
+# *************************************************************
 """
 This collections of functions and procedures supports the main testing script
 test.py to compare Polars and Pandas modules. The following functions performs
@@ -5,11 +16,13 @@ calculation of average working duration, delivers results to terminal window
 and display results on graphs.
 """
 
-# Import modules and packages
-import numpy as np
+### Standard packages ###
 import timeit
-from matplotlib import pyplot as plt
 from operator import itemgetter
+
+### Third-party packages ###
+import numpy as np
+from matplotlib import pyplot as plt
 
 # Supporting functions
 def test_it(setup: str, statement: str, R: int, N: int) -> list:
@@ -108,3 +121,5 @@ def evaluate_and_show(setup_pd: str, setup_pdc : str, setup_pda : str, setup_pl 
     show_graph(dur_pd=t_pandas, dur_pdc=t_pandas_c, dur_pda=t_pandas_arrow, dur_pl=t_polars, text_name=test_name)
 
     return None
+
+__all__: tuple[str, ...] = ("evaluate_and_show", "show_result", "test_it")
