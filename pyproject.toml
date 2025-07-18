@@ -14,6 +14,7 @@ classifiers = [
   'Private :: Do Not Upload',
 ]
 dependencies = [
+  'matplotlib >=3.10.3',
   'pandas >=2.3.1',
   'polars >=1.31.0',
   'pyarrow >=21.0.0',
@@ -27,6 +28,7 @@ version = '0.0.1'
 
 
 [project.scripts]
+compare = 'polars_v_pandas.compare:main'
 download = 'polars_v_pandas.download_data:main'
 
 
