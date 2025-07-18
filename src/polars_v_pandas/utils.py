@@ -150,8 +150,8 @@ def _show_graph(dur_pd: list, dur_pdc: list, dur_pda: list, dur_pl: list, index:
   _ = plt.xlabel("Python module", fontsize=11)
   _ = plt.ylabel("Duration [s]", fontsize=11)
   _ = plt.legend(shadow=True)
-  plt.show()
   plt.savefig(f"images/test_{index:02d}.png")
+  plt.show()
 
   return None
 
